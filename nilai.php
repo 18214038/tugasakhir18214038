@@ -10,7 +10,7 @@
 	//the first choice (question.1) is the true answer
 	//all others are wrong
 	$sql = "select question.id, question.1
-					from test join question
+          from test join question
 					on test.id = question.test_id
 					where test.id = '$_SESSION[testId]'";
 					
