@@ -63,11 +63,11 @@
     }
     else
     { foreach($test as $test)
-      { echo "<span class='cell0'>";
+      { echo $test[test];
         echo "<form action='score.php' method='POST'>";
-        echo "<button type='submit' name='testId' value='$test[id]' class='btn-link'>";
-        echo $test[test];
-        echo "</button></form></span><br>";
+        echo "<button type='submit' name='testId' value='$test[id]'>";
+        echo "Lihat nilai";
+        echo "</button></form>";
       }
     }
   }

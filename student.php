@@ -1,5 +1,6 @@
 <title>Beranda Siswa</title>
 <link rel="stylesheet" href="style.css">
+
 <script>
   function take(studentId, courseId)
   { var xhttp = new XMLHttpRequest();

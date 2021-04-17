@@ -1,4 +1,5 @@
 <link rel="stylesheet" href="style.css">
+<a href='teacher.php'>Kembali</a><br><br>
 
 <?php
   //database and session start
