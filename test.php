@@ -30,7 +30,7 @@
   { $question[] = $row; }
   
   //test sheet
-  echo "<form action='nilai.php' method='POST'>";
+  echo "<form action='score.php' method='POST'>";
   
   //question number
   $i = 1;

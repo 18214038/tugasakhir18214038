@@ -2,11 +2,11 @@
 <link rel="stylesheet" href="style.css">
 
 <script>
-  function take(studentId, courseId)
+  function take(studentId,courseId)
   { var xhttp = new XMLHttpRequest();
     xhttp.open("POST","take.php",true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    xhttp.send("studentId="+studentId+"&courseId="+courseId); //This is where I'm confused
+    xhttp.send("studentId="+studentId+"&courseId="+courseId);
     location.reload();
   }
 </script>

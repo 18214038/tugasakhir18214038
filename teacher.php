@@ -1,6 +1,16 @@
 <title>Beranda Dosen</title>
 <link rel="stylesheet" href="style.css">
 
+<script>
+  function viewScore(testId)
+  { var xhttp = new XMLHttpRequest();
+    xhttp.open("POST","scoretable.php",true);
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.send("testId="+testId);
+    location.href = "scoretable.php";
+  }
+</script>
+
 <?php
   //database and session start
   include("config.php");
@@ -12,6 +22,9 @@
 
   //logout
   echo "<a href='logout.php'>keluar</a><br><br>";
+
+  //make new test
+  echo "<a href='maketest.php'>Buat ujian baru</a><br><br>";
   
   //list of courses
   $sql = "select course.id, course.course
@@ -33,14 +46,13 @@
   //number display
   $i = 1;
   
+  echo "<table>";
+  
   //listing courses
   foreach($course as $course)
-  { //print number display
-    echo $i.". ";
+  { //print course
+    echo "<tr><td>".$i.". ".$course[course]."</td></tr>";
     $i++;
-    
-    //print course
-    cetak($course[course]);
     
     //list of tests in a course
     $sql = "select test.id, test.test
@@ -58,17 +70,20 @@
     
     //listing tests available
     if(empty($test))
-    { cetak("<span style='color:red'>belum ada ujian</span>");
-      echo "<br>";
+    { echo "<tr><td><span style='color:red'>belum ada ujian</span></td></tr>";
+      echo "<tr></tr>";
     }
     else
     { foreach($test as $test)
-      { echo $test[test];
-        echo "<form action='score.php' method='POST'>";
-        echo "<button type='submit' name='testId' value='$test[id]'>";
+      { echo "<tr><td>".$test[test]."</td>";
+        echo "<td>".$test[id]."</td>";
+        echo "<td><button onclick=viewScore($test[id])>";
         echo "Lihat nilai";
-        echo "</button></form>";
+        echo "</button></td></tr>";
       }
     }
+    echo "<tr><td>&nbsp;</td></tr>";
   }
+  
+  echo "</table>";
 ?>
