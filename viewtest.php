@@ -1,4 +1,4 @@
-<title>Ujian</title>
+<title>Lihat Ujian</title>
 <link rel="stylesheet" href="style.css">
 
 <div class="header">
@@ -11,8 +11,8 @@
   
   //welcome message
   echo "<p class='logo'>Layanan Asesmen dan Evaluasi Pembelajaran</p>";
-  echo "Selamat datang, siswa ";
-  echo "<span style='color:green'>".$_SESSION[user]."</span>.<br>";
+  echo "Selamat datang, Dosen ";
+  echo "<span style='color:blue'>".$_SESSION[user]."</span>.<br>";
   
   //logout
   echo "<a href='logout.php'>keluar</a><br>";
@@ -32,7 +32,7 @@
   
   //print test name
   cetak("<span style='font-weight:bold'>".$test[test]."</span>");
-  echo "<a href='student.php'>Kembali</a><br><br>";
+  echo "<a href='teacher.php'>Kembali</a><br><br>";
   
   if($test[type] == 0)
   { //querying the questions of the test
@@ -48,9 +48,6 @@
     while($row = mysqli_fetch_assoc($result))
     { $question[] = $row; }
     
-    //test sheet
-    echo "<form action='score.php' method='POST'>";
-    
     //question number
     $i = 1;
     
@@ -58,17 +55,11 @@
     foreach($question as $question)
     { echo $i.". ";
       cetak($question[question]);
-      
-      //shuffle the choices
-      $choice = array($question[choice1],$question[choice2],$question[choice3],$question[choice4],$question[choice5]);
-      shuffle($choice);
-      
-      //listing the shuffled choices
-      for($j=0;$j<=4;$j++)
-      { $id = "q".$i."c".$j;
-        echo "<input type='radio' id = '$id' name='$i' value='$choice[$j]'>";
-        echo "<label for='$id'>".$choice[$j]."</label><br>";
-      }
+      cetak("☑ ".$question[choice1]);
+      cetak("☐ ".$question[choice2]);
+      cetak("☐ ".$question[choice3]);
+      cetak("☐ ".$question[choice4]);
+      cetak("☐ ".$question[choice5]);
       
       echo "<br>";
       $i++;
@@ -87,13 +78,6 @@
     echo $question[question];
     echo "</div>";
     echo "<br>";
-    
-    echo "<form action='score.php' method='POST' enctype='multipart/form-data'>";
-    echo "<input type='file' id='file' name='file'><br>";
   }
-  
-  //submit button
-  echo "<input type='submit' value='kumpulkan'><br>";
-  echo "</form>";
 ?>
 </div>

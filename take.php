@@ -6,4 +6,7 @@
           values ($_POST[studentId],$_POST[courseId])";
           
   mysqli_query($db,$sql);
+  unset($_POST);
+  
+  header("location:student.php");
 ?>

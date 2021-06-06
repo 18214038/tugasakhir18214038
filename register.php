@@ -1,20 +1,36 @@
 <title>Daftar</title>
 <link rel="stylesheet" href="style.css">
 
+<div class="header">
+  <p class="logo">Layanan Asesmen dan Evaluasi Pembelajaran</p>
+  <b>Halaman daftar</b>
+</div>
+
+<div class="tab">
+  <br>
+</div>
+
 <!--registration form-->
-<span style='font-weight:bold'>Daftar</span>
+<div class="tabcontent">
 <form method="POST">
-  Pilih:  <input type="radio" id="student" name="role" value="0" checked>
-          <label for="student">siswa</label>
-          <input type="radio" id="teacher" name="role" value="1">
-          <label for="teacher">dosen</label><br>
-  <label for="username">Nama : </label>
-  <input type="text" id="username" name="username"><br>
-  <label for="password">Sandi: </label>
-  <input type="password" id="password" name="password"><br>
-  <input type="submit" value="daftar"><br>
+  <table>
+    <tr><td>Pilih:</td>
+    <td>
+      <input type="radio" id="student" name="role" value="0" checked>
+      <label for="student">siswa</label>
+      <input type="radio" id="teacher" name="role" value="1">
+      <label for="teacher">dosen</label><br>
+    </td></tr>
+  
+    <tr><td><label for="username">Nama:</label></td>
+    <td><input type="text" id="username" name="username"></td></tr>
+    <tr><td><label for="password">Sandi:</label></td>
+    <td><input type="password" id="password" name="password"></td></tr>
+    <tr><td><input type="submit" value="daftar"></td></tr>
+  </table>
 </form>
-<a href='login.php'>Halaman masuk</a><br>
+
+<a href="login.php">Halaman masuk</a><br>
 
 <?php
   //database
@@ -44,3 +60,4 @@
     echo "<span style='color:green'>berhasil mendaftar</span><br>";
   }
 ?>
+</div>

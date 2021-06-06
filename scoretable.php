@@ -1,18 +1,22 @@
 <link rel="stylesheet" href="style.css">
-<a href='teacher.php'>Kembali</a><br><br>
 
 <?php
   //database and session start
   include("config.php");
   session_start();
 
-  var_dump($_POST[testId]);
+  $sql = "select test from test where id = $_GET[testId]";
+  $result = mysqli_query($db,$sql);
+  $testname = mysqli_fetch_assoc($result);
+  
+  cetak("<b>Nilai untuk ".$testname[test]."</b>");
+  echo "<br>";
 
-  $sql = "select student.username, testSession.rightAnswer, testSession.wrongAnswer
+  $sql = "select student.username, testSession.score
           from student join testSession
           on student.id = testSession.student_id
-          where testSession.test_id = $_POST[testId]
-          order by testSession.rightAnswer desc";
+          where testSession.test_id = $_GET[testId]
+          order by student.id";
           
   $result = mysqli_query($db,$sql);
   
@@ -25,15 +29,22 @@
   echo "<tr>";
   echo "<th>Nama</th>";
   echo "<th>Nilai</th>";
-  echo "<th>Benar</th>";
-  echo "<th>Salah</th>";
   echo "</tr>";
+  
   foreach($score as $score)
   { echo "<tr>";
     echo "<td>".$score[username]."</td>";
-    echo "<td>".nilai($score[rightAnswer],$score[wrongAnswer])."</td>";
-    echo "<td>".$score[rightAnswer]."</td>";
-    echo "<td>".$score[wrongAnswer]."</td>";
-    echo "</tr>";
+    
+    echo "<td>";
+
+    if($score[score] >= 70)
+    { echo "<span style='color:green'>";  }
+    else
+    { echo "<span style='color:red'>";  }
+    
+    echo $score[score];
+    echo "</span>";
+    
+    echo "</td></tr>";
   }
 ?>
