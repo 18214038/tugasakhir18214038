@@ -8,7 +8,7 @@
   var i = 0;
 
   var innerbuttons = "<button onclick=addElement()>tambah soal</button><button onclick=rmvElement()>hapus soal</button>";
-  var inneressay = "<label for='task'>Berilah soal atau tema dalam esai yang akan dikumpulkan: </label><br><textarea required id='task' name='task' rows='10' cols='100'></textarea>";
+  var inneressay = "<label for='task'>Berilah soal atau tema dalam esai yang akan dikumpulkan: </label><br><textarea id='task' name='task' rows='5' cols='50'></textarea>";
   
   function addElement()
   { i++;
@@ -49,7 +49,7 @@
       essay.id = "essay";
       essay.innerHTML = inneressay;
       
-      document.getElementById("form").appendChild(essay);
+      document.getElementById("isi").appendChild(essay);
     }
   }
 </script>
@@ -92,8 +92,8 @@
   { $course[] = $row; }
 ?>
 
-<table>
 <form id='form' method='POST'>
+<table>
 
 <tr>
 <td><label for='type'>Jenis ujian/kuis:</label></td>

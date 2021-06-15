@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jun 02, 2021 at 07:29 AM
+-- Generation Time: Jun 15, 2021 at 04:37 AM
 -- Server version: 10.5.8-MariaDB
 -- PHP Version: 7.4.13
 
@@ -24,6 +24,26 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `admin`
+--
+
+CREATE TABLE `admin` (
+  `id` int(11) NOT NULL,
+  `role` int(11) NOT NULL,
+  `username` varchar(5) NOT NULL,
+  `password` varchar(8) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `admin`
+--
+
+INSERT INTO `admin` (`id`, `role`, `username`, `password`) VALUES
+(1, 2, 'admin', '1234');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `course`
 --
 
@@ -31,7 +51,7 @@ CREATE TABLE `course` (
   `id` int(1) NOT NULL,
   `teacher_id` int(1) DEFAULT NULL,
   `sks` int(11) NOT NULL,
-  `course` varchar(12) DEFAULT NULL
+  `course` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -68,7 +88,8 @@ INSERT INTO `enrollment` (`student_id`, `course_id`) VALUES
 (2, 2),
 (2, 4),
 (3, 1),
-(3, 4);
+(3, 4),
+(7, 1);
 
 -- --------------------------------------------------------
 
@@ -79,12 +100,12 @@ INSERT INTO `enrollment` (`student_id`, `course_id`) VALUES
 CREATE TABLE `question` (
   `id` int(2) NOT NULL,
   `test_id` int(1) DEFAULT NULL,
-  `question` varchar(53) NOT NULL,
-  `choice1` varchar(32) DEFAULT NULL,
-  `choice2` varchar(11) DEFAULT NULL,
-  `choice3` varchar(15) DEFAULT NULL,
-  `choice4` varchar(11) DEFAULT NULL,
-  `choice5` varchar(100) DEFAULT NULL
+  `question` varchar(100) NOT NULL,
+  `choice1` varchar(50) DEFAULT NULL,
+  `choice2` varchar(50) DEFAULT NULL,
+  `choice3` varchar(50) DEFAULT NULL,
+  `choice4` varchar(50) DEFAULT NULL,
+  `choice5` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -135,7 +156,8 @@ INSERT INTO `student` (`id`, `role`, `username`, `password`) VALUES
 (4, 0, 'Raihan', 'best'),
 (5, 0, 'Dimas', 'ngbs'),
 (6, 0, 'Permadi', 'cdf'),
-(7, 0, 'Rini', 'lok');
+(7, 0, 'Rini', 'lok'),
+(9, 0, 'dzaky', 'lho');
 
 -- --------------------------------------------------------
 
@@ -174,6 +196,18 @@ CREATE TABLE `teachingFile` (
   `file` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `teachingFile`
+--
+
+INSERT INTO `teachingFile` (`id`, `course_id`, `file`) VALUES
+(12, 4, 'sosial1'),
+(13, 1, 'Materi Fisika Minggu 1'),
+(14, 1, 'Materi Fisika Minggu 2-4'),
+(15, 2, 'PDF Trigonometri'),
+(16, 2, 'Aljabar Linear - DR. Siti Rohimah'),
+(17, 2, 'PPT Kalkulus');
+
 -- --------------------------------------------------------
 
 --
@@ -184,7 +218,7 @@ CREATE TABLE `test` (
   `id` int(1) NOT NULL,
   `course_id` int(1) DEFAULT NULL,
   `type` tinyint(1) NOT NULL,
-  `test` varchar(19) DEFAULT NULL,
+  `test` varchar(50) DEFAULT NULL,
   `duedate` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -193,11 +227,11 @@ CREATE TABLE `test` (
 --
 
 INSERT INTO `test` (`id`, `course_id`, `type`, `test`, `duedate`) VALUES
-(1, 4, 0, 'Kuis 1 Sosial I', '2021-06-01'),
-(2, 1, 0, 'Kuis 1 Fisika I', '2021-06-01'),
-(3, 2, 0, 'Kuis 1 Matematika I', '2021-06-01'),
+(1, 4, 0, 'Kuis 1 Sosial I', '2021-07-01'),
+(2, 1, 0, 'Kuis 1 Fisika I', '2021-07-01'),
+(3, 2, 0, 'Kuis 1 Matematika I', '2021-07-01'),
 (4, 4, 0, 'Kuis 2 Sosial I', '2021-06-01'),
-(5, 1, 1, 'Kuis Esai Fisika', '2021-06-03');
+(5, 1, 1, 'Kuis Esai Fisika', '2021-07-03');
 
 -- --------------------------------------------------------
 
@@ -218,7 +252,8 @@ CREATE TABLE `testSession` (
 
 INSERT INTO `testSession` (`student_id`, `test_id`, `score`, `file`) VALUES
 (1, 3, 75, NULL),
-(2, 1, 100, NULL);
+(2, 1, 100, NULL),
+(1, 2, 100, NULL);
 
 --
 -- Indexes for dumped tables
@@ -228,13 +263,22 @@ INSERT INTO `testSession` (`student_id`, `test_id`, `score`, `file`) VALUES
 -- Indexes for table `course`
 --
 ALTER TABLE `course`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `teacher_id` (`teacher_id`);
+
+--
+-- Indexes for table `enrollment`
+--
+ALTER TABLE `enrollment`
+  ADD KEY `student_id` (`student_id`),
+  ADD KEY `course_id` (`course_id`);
 
 --
 -- Indexes for table `question`
 --
 ALTER TABLE `question`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `test_id` (`test_id`);
 
 --
 -- Indexes for table `student`
@@ -252,13 +296,22 @@ ALTER TABLE `teacher`
 -- Indexes for table `teachingFile`
 --
 ALTER TABLE `teachingFile`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `course_id` (`course_id`);
 
 --
 -- Indexes for table `test`
 --
 ALTER TABLE `test`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `course_id` (`course_id`);
+
+--
+-- Indexes for table `testSession`
+--
+ALTER TABLE `testSession`
+  ADD KEY `student_id` (`student_id`),
+  ADD KEY `test_id` (`test_id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -274,13 +327,13 @@ ALTER TABLE `course`
 -- AUTO_INCREMENT for table `question`
 --
 ALTER TABLE `question`
-  MODIFY `id` int(2) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+  MODIFY `id` int(2) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `student`
 --
 ALTER TABLE `student`
-  MODIFY `id` int(1) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(1) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `teacher`
@@ -292,13 +345,55 @@ ALTER TABLE `teacher`
 -- AUTO_INCREMENT for table `teachingFile`
 --
 ALTER TABLE `teachingFile`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `test`
 --
 ALTER TABLE `test`
-  MODIFY `id` int(1) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id` int(1) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `course`
+--
+ALTER TABLE `course`
+  ADD CONSTRAINT `course_ibfk_1` FOREIGN KEY (`teacher_id`) REFERENCES `teacher` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `enrollment`
+--
+ALTER TABLE `enrollment`
+  ADD CONSTRAINT `enrollment_ibfk_1` FOREIGN KEY (`student_id`) REFERENCES `student` (`id`),
+  ADD CONSTRAINT `enrollment_ibfk_2` FOREIGN KEY (`course_id`) REFERENCES `course` (`id`);
+
+--
+-- Constraints for table `question`
+--
+ALTER TABLE `question`
+  ADD CONSTRAINT `question_ibfk_1` FOREIGN KEY (`test_id`) REFERENCES `test` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `teachingFile`
+--
+ALTER TABLE `teachingFile`
+  ADD CONSTRAINT `teachingFile_ibfk_1` FOREIGN KEY (`course_id`) REFERENCES `course` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `test`
+--
+ALTER TABLE `test`
+  ADD CONSTRAINT `test_ibfk_1` FOREIGN KEY (`course_id`) REFERENCES `course` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `testSession`
+--
+ALTER TABLE `testSession`
+  ADD CONSTRAINT `testSession_ibfk_1` FOREIGN KEY (`student_id`) REFERENCES `student` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `testSession_ibfk_2` FOREIGN KEY (`test_id`) REFERENCES `test` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
